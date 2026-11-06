@@ -1,0 +1,1 @@
+Original ROMAX music beds synthesized in-house as PCM WAV: ambient, pulse and cinematic. The editor can select these beds in the Audio tab and FFmpeg mixes the chosen bed at the configured volume beneath source audio. No commercial music is included.

@@ -1,0 +1,4 @@
+const API=import.meta.env.VITE_API_URL||'http://localhost:8000';
+export async function request(path:string,opts:RequestInit={}){const r=await fetch(API+path,opts);if(!r.ok){let m=r.statusText;try{m=(await r.json()).detail||m}catch{}throw new Error(m)}return r.status===204?null:r.json()}
+export const asset=(path:string)=>API+path;
+export async function upload(file:File,onProgress:(n:number)=>void){return new Promise<any>((resolve,reject)=>{const x=new XMLHttpRequest();x.open('POST',API+'/api/projects');x.upload.onprogress=e=>{if(e.lengthComputable)onProgress(Math.round(e.loaded/e.total*100))};x.onload=()=>{if(x.status>=200&&x.status<300)resolve(JSON.parse(x.responseText));else reject(new Error(JSON.parse(x.responseText).detail||'Upload failed'))};x.onerror=()=>reject(new Error('Network error'));const f=new FormData();f.append('file',file);f.append('title',file.name.replace(/\.[^.]+$/,''));x.send(f)})}
