@@ -1,0 +1,18 @@
+services:
+  api:
+    build: ./backend
+    env_file: .env
+    environment:
+      DATA_DIR: /data
+      DATABASE_URL: sqlite:////data/romax.db
+    volumes:
+      - romax-data:/data
+    ports: ["8000:8000"]
+  web:
+    build: ./frontend
+    environment:
+      VITE_API_URL: http://localhost:8000
+    ports: ["5173:80"]
+    depends_on: [api]
+volumes:
+  romax-data:
